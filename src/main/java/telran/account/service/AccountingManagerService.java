@@ -1,6 +1,6 @@
 package telran.account.service;
 
-import telran.account.dto.AccountDto;
+import telran.probes.dto.AccountDto;
 
 public interface AccountingManagerService {
 /*	1.1.2.1.

@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -18,8 +19,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import telran.account.controller.AccountingManagerController;
-import telran.account.dto.AccountDto;
+import telran.account.repo.AccountRepo;
 import telran.account.service.AccountingManagerService;
+import telran.probes.dto.AccountDto;
+
 import static telran.account.api.AccountManagerConfiguration.*;
 import static telran.account.api.AccountManagerMessages.*;
 
@@ -33,7 +36,7 @@ class AccountingManagerControllerTest {
 	private static final String EMAIL_ID = "email1@gmail.com";
 	private static final AccountDto NORMAL_ACCOUNT_DTO = new AccountDto(EMAIL_ID, "12345678", new String[] {"role1"});
 	private static final AccountDto WRONG_ACCOUNT_DTO = new AccountDto("email", "", new String[] {});
-	private static final String URL = "http://localhost:8090/" + REQUEST_MAPPING;
+	private static final String URL = "http://localhost:8080/" + REQUEST_MAPPING;
 	private static final String WRONG_EMAIL_ID_FORMAT = "wrong_email_format";
 	private static final String NULL_EMAIL_ID = null;
 	

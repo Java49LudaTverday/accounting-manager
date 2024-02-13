@@ -4,10 +4,10 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import telran.account.dto.AccountDto;
 import telran.account.exceptions.AccountAlreadyExistsException;
 import telran.account.model.Account;
 import telran.account.repo.AccountRepo;
+import telran.probes.dto.AccountDto;
 
 @Service
 @RequiredArgsConstructor

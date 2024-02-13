@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import telran.account.dto.AccountDto;
+import telran.probes.dto.AccountDto;
 
 @Document(collection = "accounts")
 @NoArgsConstructor

@@ -12,11 +12,11 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import telran.account.dto.AccountDto;
 import telran.account.exceptions.AccountAlreadyExistsException;
 import telran.account.model.Account;
 import telran.account.repo.AccountRepo;
 import telran.account.service.AccountingManagerService;
+import telran.probes.dto.AccountDto;
 
 @SpringBootTest
 @TestMethodOrder (MethodOrderer.OrderAnnotation.class)

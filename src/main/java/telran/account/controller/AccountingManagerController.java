@@ -7,8 +7,9 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import telran.account.dto.AccountDto;
 import telran.account.service.AccountingManagerService;
+import telran.probes.dto.AccountDto;
+
 import static telran.account.api.AccountManagerConfiguration.*;
 import static telran.account.api.AccountManagerMessages.*;
 
