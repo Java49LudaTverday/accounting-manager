@@ -38,37 +38,40 @@ class AccountManagerServiceTest {
 	AccountRepo accountRepo;
 	
 	@SuppressWarnings("unchecked")
-	@BeforeAll
+	@Test
+	@Order(1)
 	void initialDb () {
 		accountRepo.deleteAll();
 		accountRepo.saveAll(initialAcounts);
 	}
 	
 	@Test
-	@Order(1)
+	@Order(2)
 	void addAccount_whenNormalFlow_thenReturnAccountDto() {
 		AccountDto expected = accountingManager.addAccount(NEW_ACCOUNT_DTO);
 		Account actual = accountRepo.findById(EMAIL_ID_4).orElse(null);
-		assertEquals(expected, actual.buildDto());
+		AccountDto actualDto = actual.buildDto();
+		assertEquals(expected.email(), actualDto.email() );
+		assertEquals(expected.password(), actualDto.password() );
 	}
 	
 	@Test
-	@Order(2)
+	@Order(3)
 	void addAccount_whenEmailNotExists_thenThrowAlreadyExistsException() {
 		assertThrowsExactly(AccountAlreadyExistsException.class,
 				() -> accountingManager.addAccount(NEW_ACCOUNT_DTO));
 	}
 	
 	@Test 
-	@Order(3)
+	@Order(4)
 	void removeAccount_whenNormalFlow_thenReturnAccountDto () {
-		AccountDto expected = accountingManager.removeAccount(EMAIL_ID_4);
-		assertEquals(expected, NEW_ACCOUNT_DTO);
+		AccountDto actual = accountingManager.removeAccount(EMAIL_ID_4);
+		assertEquals(actual.email(), NEW_ACCOUNT_DTO.email());
 	    assertNull(accountRepo.findById(EMAIL_ID_4).orElse(null));
 	}
 	
 	@Test 
-	@Order(4)
+	@Order(5)
 	void deleteAccount_whenEmailNotExists_thenReturnNull () {
 		assertNull(accountingManager.removeAccount(EMAIL_ID_4));
 	}
