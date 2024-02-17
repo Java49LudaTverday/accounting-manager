@@ -27,6 +27,6 @@ public class Account {
 	}
 	
 	public AccountDto buildDto () {
-		return new AccountDto(email, hashPassword, roles);
+		return new AccountDto(email, "********", roles);
 	}
 }

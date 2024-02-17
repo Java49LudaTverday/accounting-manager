@@ -1,5 +1,7 @@
 package telran.account.service;
 
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -14,16 +16,23 @@ import telran.probes.dto.AccountDto;
 @Slf4j
 public class AccountingManagerServiceImpl implements AccountingManagerService {
 	final AccountRepo accountRepo;
+	final PasswordEncoder passwordEncoder;
 
 	@Override
-	public AccountDto addAccount(AccountDto account) {
-		String email = account.email();
+	public AccountDto addAccount(AccountDto accountDto) {
+		String email = accountDto.email();
+		AccountDto accountEncoded = getAcocuntDtoEncoded(accountDto);
 		if(accountRepo.existsById(email)) {
 			throw new AccountAlreadyExistsException(); 
 		}
-		accountRepo.save(new Account(account));
+		Account account = accountRepo.save(new Account(accountEncoded));
 		log.debug("account {} has been saved", account);
-		return account;
+		return account.buildDto();
+	}
+
+	private AccountDto getAcocuntDtoEncoded(AccountDto account) {
+		
+		return new AccountDto(account.email(), passwordEncoder.encode(account.password()), account.roles());
 	}
 
 	@Override
@@ -35,8 +44,9 @@ public class AccountingManagerServiceImpl implements AccountingManagerService {
 			res = account.buildDto();
 			accountRepo.delete(account);
 			log.debug("account with id {} has been removed", email);
-		}		
+		}				
 		return res;
 	}
+	
 
 }

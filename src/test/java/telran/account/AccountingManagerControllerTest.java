@@ -30,13 +30,13 @@ import java.util.List;
 
 
 
-@WebMvcTest(AccountingManagerController.class)
+@WebMvcTest
 class AccountingManagerControllerTest {
 	
 	private static final String EMAIL_ID = "email1@gmail.com";
 	private static final AccountDto NORMAL_ACCOUNT_DTO = new AccountDto(EMAIL_ID, "12345678", new String[] {"role1"});
 	private static final AccountDto WRONG_ACCOUNT_DTO = new AccountDto("email", "", new String[] {});
-	private static final String URL = "http://localhost:8080/" + REQUEST_MAPPING;
+	private static final String URL = "http://localhost:8787/" + REQUEST_MAPPING;
 	private static final String WRONG_EMAIL_ID_FORMAT = "wrong_email_format";
 	private static final String NULL_EMAIL_ID = null;
 	
@@ -44,6 +44,8 @@ class AccountingManagerControllerTest {
 	MockMvc mockMvc;
 	@MockBean
 	AccountingManagerService accountingService; 
+	@MockBean
+	AccountRepo accountRepo;
 	@Autowired
 	ObjectMapper mapper;
 
@@ -51,12 +53,11 @@ class AccountingManagerControllerTest {
 	void addAccount_whenNormalFlow_thenReturnResponse() throws Exception {
 		when(accountingService.addAccount(NORMAL_ACCOUNT_DTO)).thenReturn(NORMAL_ACCOUNT_DTO);
 		String accountDtoJson = mapper.writeValueAsString(NORMAL_ACCOUNT_DTO);
-		 String actualResponse = mockMvc.perform(post(URL)
-    			 .contentType(MediaType.APPLICATION_JSON)
-    			 .content(accountDtoJson))
+		 String actualResponse = mockMvc.perform(post(URL).content(accountDtoJson)
+    			 .contentType(MediaType.APPLICATION_JSON))
     	 .andDo(print()).andExpect(status().isOk())
     	 .andReturn().getResponse().getContentAsString();
-		assertEquals(accountDtoJson, actualResponse);
+		assertEquals(NORMAL_ACCOUNT_DTO, mapper.readValue(actualResponse, AccountDto.class));
 	}
 	
 	@Test
